@@ -28,4 +28,20 @@ def change_sub_strings(text, pattern, new_string):
         if pattern[:i] == pattern[-i:]:
             raise ValueError
 
-    return text
+    return None
+
+
+def solution1(filename):
+    """
+    Function for solving first task.
+
+    :param filename: str
+        Name of file for processing.
+
+    :return:
+        Text with changed substrings.
+    """
+    if isinstance(filename, str):
+        raise TypeError
+
+    return None
