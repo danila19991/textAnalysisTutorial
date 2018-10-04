@@ -1,9 +1,8 @@
-def plus(a, b):
-    return a+b
+from task1.solution import solution1
 
 
 def main():
-    print(plus('hello ', 'world'))
+    solution1('anaconda.txt', 'result1.txt')
 
 
 if __name__ == "__main__":
