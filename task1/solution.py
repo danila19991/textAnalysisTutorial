@@ -1,3 +1,8 @@
+"""
+This module provide solution for first task.
+"""
+
+
 def change_sub_strings(text, pattern, new_string):
     """
     Function for changing all entrance of pattern to new_string.
@@ -15,14 +20,12 @@ def change_sub_strings(text, pattern, new_string):
     :return:
         String with changed pattern to new_string.
     """
-    if type(text) is not str or type(pattern) is not str or\
-            type(new_string) is not str:
+    if isinstance(text, str) and isinstance(pattern, str) and \
+            isinstance(new_string, str):
         assert TypeError
 
     for i in range(1, len(pattern)):
         if pattern[:i] == pattern[-i:]:
             raise ValueError
-
-
 
     return text

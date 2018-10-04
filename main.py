@@ -1,14 +1,14 @@
-import re
-
-
-def plus(a, b):
-    return a+b
+"""
+This module start solutions for tasks.
+"""
 
 
 def main():
-    print(plus('hello ', 'world'))
-    matcher = re.compile('snake')
-    print(matcher.split('snake snake'))
+    """
+    Main function if start executing this module.
+    """
+    pass
+
 
 if __name__ == "__main__":
     main()
