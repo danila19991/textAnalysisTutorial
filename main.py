@@ -4,7 +4,9 @@ This module start solutions for tasks.
 
 
 def main():
-
+    """
+    Main function if start executing this module.
+    """
     return None
 
 
