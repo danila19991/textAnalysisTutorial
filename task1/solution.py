@@ -20,15 +20,13 @@ def change_sub_strings(text, pattern, new_string):
     :return:
         String with changed pattern to new_string.
     """
-    if isinstance(text, str) and isinstance(pattern, str) and \
-            isinstance(new_string, str):
+    if not isinstance(text, str) or not isinstance(pattern, str) or \
+            not isinstance(new_string, str):
         assert TypeError
 
     for i in range(1, len(pattern)):
         if pattern[:i] == pattern[-i:]:
             raise ValueError
-
-    return None
 
 
 def solution1(filename):
@@ -41,7 +39,5 @@ def solution1(filename):
     :return:
         Text with changed substrings.
     """
-    if isinstance(filename, str):
+    if not isinstance(filename, str):
         raise TypeError
-
-    return None
