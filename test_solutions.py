@@ -3,8 +3,8 @@ This modules tests solution functions.
 """
 
 
-from task1.solution import solution1
 import pytest
+from task1.solution import solution1
 
 
 def test_solution1_not_str():
