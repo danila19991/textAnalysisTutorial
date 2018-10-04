@@ -8,6 +8,7 @@ def test_change_sub_string_type_error():
 
 
 def test_change_sub_string_vale_error():
+
     with pytest.raises(ValueError):
         change_sub_strings('egg spam', 'aba', 'ada')
 
