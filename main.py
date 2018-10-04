@@ -1,9 +1,13 @@
-def plus(a, b):
-    return a+b
+"""
+This module start solutions for tasks.
+"""
 
 
 def main():
-    print(plus('hello ', 'world'))
+    """
+    Main function if start executing this module.
+    """
+    return None
 
 
 if __name__ == "__main__":
