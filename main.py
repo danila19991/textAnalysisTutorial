@@ -1,13 +1,8 @@
-"""
-This module start solutions for tasks.
-"""
+from task1.solution import solution1
 
 
 def main():
-    """
-    Main function if start executing this module.
-    """
-    return None
+    solution1('anaconda.txt', 'result1.txt')
 
 
 if __name__ == "__main__":
