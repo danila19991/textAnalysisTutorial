@@ -7,7 +7,7 @@ def main():
     """
     Main function if start executing this module.
     """
-    return None
+    pass
 
 
 if __name__ == "__main__":
