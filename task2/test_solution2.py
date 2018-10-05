@@ -1,12 +1,6 @@
 import pytest
 from task2.solution2 import get_all_years, filter_same_tokens, find_all_tokens
-
-
-@pytest.fixture(scope="function", params=[(TypeError, "121"),
-                                          (TypeError, [1989])],
-                ids=["not list", "not string"])
-def param_list_of_string_raise(request):
-    return request.param
+from test_solutions import param_list_of_string_raise
 
 
 def test_get_all_years_raise(param_list_of_string_raise):

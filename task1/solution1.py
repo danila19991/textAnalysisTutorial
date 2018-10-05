@@ -80,4 +80,4 @@ def solution1(input_file_name, output_file_name):
             with open(output_file_name, 'w') as f_out:
                 f_out.writelines(change_sentences(f_in.readlines()))
     except FileNotFoundError:
-        print("can't open file")
+        print("can't open file in first solution")
