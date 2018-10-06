@@ -67,15 +67,13 @@ def find_all_tokens(lines):
     if not isinstance(lines, list):
         raise TypeError
 
-    for line in lines:
-        if not isinstance(line, str):
-            raise TypeError
-
     matcher = re.compile(r"([—a-zA-Z]+('s)?|[0-9]+('th)?)")
 
     tokens = []
 
     for line in lines:
+        if not isinstance(line, str):
+            raise TypeError
         for pairs in matcher.findall(line):
             tokens.append(pairs[0].lower())
 
