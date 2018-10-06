@@ -23,6 +23,7 @@ def test_article_constructor_and_to_string(param_article_model_example):
     assert article.date == strptime(date, '%d.%m.%Y, %H:%M')
     assert article.text == text
     assert str(article) == string
+    assert article.all_text == [name, text]
 
 
 @pytest.fixture(scope="function",

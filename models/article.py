@@ -112,6 +112,16 @@ class Article:
         """
         return self._author
 
+    @property
+    def all_text(self):
+        """
+        Getter for all text and name in article.
+
+        :return:
+            List with name and text
+        """
+        return [self._name, self._text]
+
 
 def parse_articles_from_lines(lines):
     """
@@ -169,3 +179,52 @@ def parse_articles_from_lines(lines):
             continue
 
     return result
+
+
+def get_article_list_from_file(file_name):
+    """
+    Function for parsing file with articles.
+
+    :param file_name: str
+        Name of file for parsing.
+
+    :return:
+        List of articles.
+    """
+
+    if not isinstance(file_name, str):
+        raise TypeError
+
+    with open(file_name, 'rb') as f_in:
+        lines = []
+        for line in f_in.readlines():
+            lines.append(line.decode())
+
+        return parse_articles_from_lines(lines)
+
+
+def save_article_list_to_file(articles, file_name):
+    """
+    Function for writing list of articles to file.
+
+    :param articles: list of articles
+        List of articles for writing
+
+    :param file_name: str
+        Name of file for saving.
+    """
+
+    if not isinstance(file_name, str) or not isinstance(articles, list):
+        raise TypeError
+
+    with open(file_name, 'wb') as f_out:
+
+        articles_str = []
+        for article in articles:
+            if not isinstance(article, Article):
+                raise TypeError
+            articles_str.append(str(article))
+
+        text = '\n________________\n'.join(articles_str)
+
+        f_out.write(text.encode())

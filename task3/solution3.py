@@ -1,4 +1,5 @@
-from models.article import Article, parse_articles_from_lines
+from models.article import get_article_list_from_file, \
+    save_article_list_to_file
 
 
 def solution3(source_file, result_file):
@@ -17,18 +18,8 @@ def solution3(source_file, result_file):
         raise TypeError
 
     try:
-        with open(source_file, 'rb') as f_in:
-            with open(result_file, 'wb') as f_out:
-                lines = []
-                for line in f_in.readlines():
-                    lines.append(line.decode())
-
-                articles = parse_articles_from_lines(lines)
-                articles.sort()
-                articles = list(map(str, articles))
-
-                text = '\n________________\n'.join(articles)
-
-                f_out.write(text.encode())
+        articles = get_article_list_from_file(source_file)
+        articles.sort()
+        save_article_list_to_file(articles, result_file)
     except FileNotFoundError:
         print("can't open file in third solution")
