@@ -14,15 +14,13 @@ def get_all_years(lines):
     if not isinstance(lines, list):
         raise TypeError
 
-    for line in lines:
-        if not isinstance(line, str):
-            raise TypeError
-
     matcher = re.compile(r"[\d]{4}")
 
     years = []
 
     for line in lines:
+        if not isinstance(line, str):
+            raise TypeError
         years += matcher.findall(line)
 
     years = filter_same_tokens(years)

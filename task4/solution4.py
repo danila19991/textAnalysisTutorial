@@ -138,10 +138,7 @@ def read_all_words_from_file(source_file):
 
     with open(source_file, 'rb') as f_in:
         for word in f_in.readlines():
-            word = word.decode()
-            if word[-2:] == '\r\n':
-                word = word[:-2]
-            words.append(word)
+            words.append(word.decode().strip())
 
     return words
 

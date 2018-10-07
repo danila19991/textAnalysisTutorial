@@ -146,9 +146,8 @@ def parse_articles_from_lines(lines):
     for line in lines:
         if not isinstance(line, str):
             raise TypeError
-        if line[-2:] == '\r\n':
-            line = line[:-2]
-        if line == '':
+        line = line.strip()
+        if not line:
             continue
         if state == 0:
             name = line
