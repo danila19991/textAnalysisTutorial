@@ -134,11 +134,8 @@ def read_all_words_from_file(source_file):
     if not isinstance(source_file, str):
         raise TypeError
 
-    words = []
-
     with open(source_file, 'rb') as f_in:
-        for word in f_in.readlines():
-            words.append(word.decode().strip())
+        words = [word.decode().strip() for word in f_in]
 
     return words
 
