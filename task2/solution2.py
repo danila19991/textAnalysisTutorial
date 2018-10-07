@@ -14,15 +14,13 @@ def get_all_years(lines):
     if not isinstance(lines, list):
         raise TypeError
 
-    for line in lines:
-        if not isinstance(line, str):
-            raise TypeError
-
     matcher = re.compile(r"[\d]{4}")
 
     years = []
 
     for line in lines:
+        if not isinstance(line, str):
+            raise TypeError
         years += matcher.findall(line)
 
     years = filter_same_tokens(years)
@@ -102,10 +100,9 @@ def solution2(source_file, token_file, years_file):
     try:
         with open(source_file, 'r') as f_in:
             lines = f_in.readlines()
-            with open(token_file, 'w') as f_out:
-                f_out.writelines(
-                    '\n'.join(filter_same_tokens(find_all_tokens(lines))))
-            with open(years_file, 'w') as f_out:
-                f_out.writelines('\n'.join((get_all_years(lines))))
+        with open(token_file, 'w') as f_out:
+            f_out.write('\n'.join(filter_same_tokens(find_all_tokens(lines))))
+        with open(years_file, 'w') as f_out:
+            f_out.write('\n'.join((get_all_years(lines))))
     except FileNotFoundError:
         print("can't open file in second solution")

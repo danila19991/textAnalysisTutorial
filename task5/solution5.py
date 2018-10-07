@@ -77,7 +77,8 @@ def solution5(source_file, result_file, ignore_list_file, n):
                    key=operator.itemgetter(1))[::-1]
 
         with open(result_file, 'wb') as f_out:
-            for collocation, number in sorted_collocations:
-                f_out.write((collocation + ': ' + str(number) + '\n').encode())
+            f_out.write('\n'.join([collocation + ': ' + str(number)
+                                   for collocation, number in
+                                   sorted_collocations]).encode())
     except FileNotFoundError:
         print("can't open file in solution 5")

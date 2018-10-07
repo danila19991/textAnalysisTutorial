@@ -146,9 +146,8 @@ def parse_articles_from_lines(lines):
     for line in lines:
         if not isinstance(line, str):
             raise TypeError
-        if line[-2:] == '\r\n':
-            line = line[:-2]
-        if line == '':
+        line = line.strip()
+        if not line:
             continue
         if state == 0:
             name = line
@@ -196,11 +195,7 @@ def get_article_list_from_file(file_name):
         raise TypeError
 
     with open(file_name, 'rb') as f_in:
-        lines = []
-        for line in f_in.readlines():
-            lines.append(line.decode())
-
-        return parse_articles_from_lines(lines)
+        return parse_articles_from_lines([line.decode() for line in f_in])
 
 
 def save_article_list_to_file(articles, file_name):
@@ -217,16 +212,13 @@ def save_article_list_to_file(articles, file_name):
     if not isinstance(file_name, str) or not isinstance(articles, list):
         raise TypeError
 
+    for article in articles:
+        if not isinstance(article, Article):
+            raise TypeError
+
     with open(file_name, 'wb') as f_out:
-
-        articles_str = []
-        for article in articles:
-            if not isinstance(article, Article):
-                raise TypeError
-            articles_str.append(str(article))
-
-        text = '\n________________\n'.join(articles_str)
-
+        text = '\n________________\n'.join([str(article)
+                                            for article in articles])
         f_out.write(text.encode())
 
 
