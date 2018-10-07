@@ -228,3 +228,27 @@ def save_article_list_to_file(articles, file_name):
         text = '\n________________\n'.join(articles_str)
 
         f_out.write(text.encode())
+
+
+def get_all_lines_from_articles(articles):
+    """
+    Function for getting list of lines names and text of articles in list.
+
+    :param articles: list of articles
+        Articles for parsing.
+
+    :return:
+        List of text lines in articles.
+    """
+    if not isinstance(articles, list):
+        raise TypeError
+
+    result = []
+
+    for article in articles:
+        if not isinstance(article, Article):
+            raise TypeError
+        result.append(article.name)
+        result += article.text.split('\n')
+
+    return result

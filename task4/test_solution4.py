@@ -1,8 +1,7 @@
 import pytest
 from task4.solution4 import find_all_words, find_most_popular, \
-    get_all_words_from_articles
+    get_inclusion_number
 from test_solutions import param_list_of_string_raise, is_equal_lists
-from models.article import Article
 
 
 def test_find_all_words_raise(param_list_of_string_raise):
@@ -75,27 +74,14 @@ def test_find_most_popular(param_find_most_popular):
     assert is_equal_lists(find_most_popular(words, forbidden, n), result)
 
 
-def test_get_all_words_from_articles_raise(param_list_of_string_raise):
-    error, lines = param_list_of_string_raise
-    with pytest.raises(error):
-        get_all_words_from_articles(lines)
-
-
 @pytest.fixture(scope="function",
-                params=[([('Сложно', 'Ульяна', '23.09.2018, 10:15', 'текст'),
-                          ('Просто', 'Вася', '23.09.2018, 10:16', 'качество')],
-                         ['сложно', 'просто', 'текст', 'качество'])],
-                ids=['two test article'])
-def param_get_all_words_from_articles(request):
+                params=[([1, 2, 1, 2, 1, 3], {1: 3, 2: 2, 3: 1}),
+                        (['l', 'q', 'q', 'k', 'l'], {'l': 2, 'q': 2, 'k': 1})],
+                ids=['integers', 'strings'])
+def param_get_inclusion_number(request):
     return request.param
 
 
-def test_get_all_words_from_articles(param_get_all_words_from_articles):
-    articles_param, result = param_get_all_words_from_articles
-
-    articles = []
-    for param in articles_param:
-        name, author, date, text = param
-        articles.append(Article(name, author, date, text))
-
-    assert is_equal_lists(get_all_words_from_articles(articles), result)
+def test_get_inclusion_number(param_get_inclusion_number):
+    collection, result = param_get_inclusion_number
+    assert get_inclusion_number(collection) == result

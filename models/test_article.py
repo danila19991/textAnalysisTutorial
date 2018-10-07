@@ -1,7 +1,8 @@
 import pytest
 from time import strptime
-from models.article import Article, parse_articles_from_lines
-from test_solutions import param_list_of_string_raise
+from models.article import Article, parse_articles_from_lines, \
+    get_all_lines_from_articles
+from test_solutions import param_list_of_string_raise, is_equal_lists
 
 
 @pytest.fixture(scope="function",
@@ -97,3 +98,31 @@ def test_parse_articles_from_lines_many_articles(
         name, author, date, text = param
         articles.append(Article(name, author, date, text))
     assert parse_articles_from_lines(string.split('\n')) == articles
+
+
+@pytest.fixture(scope="function",
+                params=[([('name1', 'author1', '23.09.2018, 10:15', 'text1'),
+                          ('name2', 'author2', '23.09.2018, 10:16',
+                           'text2\ntext3')],
+                         ['name1', 'text1', 'name2', 'text2', 'text3'])],
+                ids=['test article'])
+def param_get_all_lines_from_articles(request):
+    return request.param
+
+
+def test_get_all_lines_from_articles(param_get_all_lines_from_articles):
+    articles_param, result = param_get_all_lines_from_articles
+
+    articles = []
+
+    for param in articles_param:
+        name, author, data, text = param
+        articles.append(Article(name, author, data, text))
+
+    assert is_equal_lists(get_all_lines_from_articles(articles), result)
+
+
+def test_get_all_lines_from_articles_raise(param_list_of_string_raise):
+    error, lines = param_list_of_string_raise
+    with pytest.raises(error):
+        get_all_lines_from_articles(lines)

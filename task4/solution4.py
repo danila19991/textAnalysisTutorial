@@ -1,10 +1,11 @@
 import pymorphy2
 import re
 import operator
-from models.article import get_article_list_from_file, Article
+from models.article import get_article_list_from_file, \
+    get_all_lines_from_articles
 
 
-class normalizer:
+class Normalizer:
     """
     Class for not reinitialising morph analyser.
     """
@@ -46,7 +47,31 @@ def find_all_words(lines):
             raise TypeError
         for word in matcher.findall(line):
             if word != '-й':
-                result.append(normalizer.normalise(word))
+                result.append(Normalizer.normalise(word))
+
+    return result
+
+
+def get_inclusion_number(custom_list):
+    """
+    Function for getting dict with number of inclusion of element in list.
+
+    :param custom_list: list
+        List for analysing
+
+    :return:
+        Dict with number of inclusions for every element.
+    """
+    if not isinstance(custom_list, list):
+        raise TypeError
+
+    result = {}
+
+    for elem in custom_list:
+        if elem in result:
+            result[elem] += 1
+        else:
+            result[elem] = 1
 
     return result
 
@@ -75,48 +100,48 @@ def find_most_popular(words, forbidden_words, n):
         if not isinstance(word, str):
             raise TypeError
 
-    word_dictionary = {}
-
     for word in words:
         if not isinstance(word, str):
             raise TypeError
-        if word in forbidden_words:
-            continue
-        if word not in word_dictionary:
-            word_dictionary[word] = 1
-        else:
-            word_dictionary[word] += 1
+
+    word_dictionary = get_inclusion_number(words)
 
     sorted_words = \
         sorted(word_dictionary.items(), key=operator.itemgetter(1))[::-1]
 
     result = []
 
-    for i in range(min(n, len(sorted_words))):
-        result.append(sorted_words[i][0])
+    for word in sorted_words:
+        if word[0] in forbidden_words:
+            continue
+        result.append(word[0])
+        if len(result) >= n:
+            break
 
     return result
 
 
-def get_all_words_from_articles(articles):
+def read_all_words_from_file(source_file):
     """
-    Function for getting all words from list of articles.
+    Function for read all words from source file.
 
-    :param articles: list of articles
-        List of articles for processing.
+    :param source_file: str
+        File with words.
 
     :return:
-        List of words from articles.
+        List of words.
     """
-    if not isinstance(articles, list):
+    if not isinstance(source_file, str):
         raise TypeError
 
     words = []
 
-    for article in articles:
-        if not isinstance(article, Article):
-            raise TypeError
-        words += find_all_words(article.all_text)
+    with open(source_file, 'rb') as f_in:
+        for word in f_in.readlines():
+            word = word.decode()
+            if word[-2:] == '\r\n':
+                word = word[:-2]
+            words.append(word)
 
     return words
 
@@ -144,22 +169,10 @@ def solution4(source_file, result_file, ignore_list_file, n):
         raise TypeError
 
     try:
-        articles = get_article_list_from_file(source_file)
-
-        forbidden = []
-
-        with open(ignore_list_file, 'rb') as f_in:
-            for word in f_in.readlines():
-                word = word.decode()
-                if word[-2:] == '\r\n':
-                    word = word[:-2]
-                forbidden.append(word)
-
-        words = get_all_words_from_articles(articles)
-
-        result = find_most_popular(words, forbidden, n)
-
-        print(result)
+        result = find_most_popular(
+            find_all_words(get_all_lines_from_articles(
+                get_article_list_from_file(source_file))),
+            read_all_words_from_file(ignore_list_file), n)
 
         with open(result_file, 'wb') as f_out:
             f_out.write('\n'.join(result).encode())
