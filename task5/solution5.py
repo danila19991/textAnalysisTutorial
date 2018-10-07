@@ -1,6 +1,7 @@
 import operator
 from yargy import rule, not_, Parser, and_
-from yargy.predicates import normalized, type
+from yargy.predicates import normalized
+from yargy.predicates import type as yargy_type
 from task4.solution4 import get_inclusion_number, find_most_popular, \
     find_all_words, read_all_words_from_file, Normalizer
 from models.article import get_article_list_from_file, \
@@ -23,8 +24,8 @@ def get_all_collocation(lines, word):
     if not isinstance(lines, list) or not isinstance(word, str):
         raise TypeError
 
-    gr = rule(normalized(word), and_(not_(type('PUNCT')),
-                                      not_(type('OTHER'))))
+    gr = rule(normalized(word), and_(not_(yargy_type('PUNCT')),
+                                      not_(yargy_type('OTHER'))))
 
     result_list = []
 
@@ -80,4 +81,3 @@ def solution5(source_file, result_file, ignore_list_file, n):
                 f_out.write((collocation + ': ' + str(number) + '\n').encode())
     except FileNotFoundError:
         print("can't open file in solution 5")
-
